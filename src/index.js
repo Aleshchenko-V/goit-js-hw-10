@@ -38,7 +38,7 @@ function onInputSearchBox(e) {
         return;
       }
       const markup = createListOfCountries(data);
-      drowInfo(markup);
+      drowList(markup);
     })
     .catch(e => {
       clearField(countryList);
@@ -65,6 +65,9 @@ function createCountryInfo(array) {
 }
 
 function drowInfo(arg) {
+  countryInfo.insertAdjacentHTML('beforeend', arg);
+}
+function drowList(arg) {
   countryList.insertAdjacentHTML('beforeend', arg);
 }
 
