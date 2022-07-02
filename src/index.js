@@ -7,6 +7,7 @@ const DEBOUNCE_DELAY = 300;
 const inputSearchBox = document.querySelector('input#search-box');
 const countryList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
+const controller = new AbortController();
 
 inputSearchBox.addEventListener(
   'input',
@@ -15,9 +16,13 @@ inputSearchBox.addEventListener(
 
 function onInputSearchBox(e) {
   const trimedQuery = e.target.value.trim();
-  if (!trimedQuery.value) {
+  if (trimedQuery) {
     clearField(countryList);
     clearField(countryInfo);
+  }
+  if (!trimedQuery) {
+    controller.abort();
+    return;
   }
   fetchCountries(trimedQuery)
     .then(data => {
@@ -38,7 +43,7 @@ function onInputSearchBox(e) {
     .catch(e => {
       clearField(countryList);
       clearField(countryInfo);
-      console.log(e);
+      Notify.failure('Oops, there is no country with that name');
     });
 }
 
@@ -56,7 +61,7 @@ function createCountryInfo(array) {
   }" width="30" height="30">&nbsp;${name.official}</h1>
       <p><b>Capital:</b> ${capital}</p><br>
       <p><b>Population:</b> ${population}</p><br>
-      <p><b>Languages:</b> ${Object.values(languages)}</p>`;
+      <p><b>Languages:</b> ${Object.values(languages).join(', ')}</p>`;
 }
 
 function drowInfo(arg) {
