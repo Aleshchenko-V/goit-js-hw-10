@@ -36,9 +36,10 @@ function onInputSearchBox(e) {
         const markup = createCountryInfo(data);
         drowInfo(markup);
         return;
+      } else {
+        const markup = createListOfCountries(data);
+        drowList(markup);
       }
-      const markup = createListOfCountries(data);
-      drowList(markup);
     })
     .catch(e => {
       clearField(countryList);
